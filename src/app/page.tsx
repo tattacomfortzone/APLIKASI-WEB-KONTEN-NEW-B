@@ -1,106 +1,79 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-
-interface Berita {
-  id: string;
-  title: string;
-  slug: string;
-  content?: string;
-  imageUrl?: string;
-  created_at?: string;
-}
+import React from 'react';
 
 export default function HomePage() {
-  const [beritaList, setBeritaList] = useState<Berita[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchData() {
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-      if (supabaseUrl && supabaseAnonKey) {
-        try {
-          const res = await fetch(
-            `${supabaseUrl}/rest/v1/berita?select=*&order=created_at.desc`,
-            {
-              headers: {
-                apikey: supabaseAnonKey,
-                Authorization: `Bearer ${supabaseAnonKey}`,
-              },
-            }
-          );
-          if (res.ok) {
-            const data = await res.json();
-            setBeritaList(data);
-          }
-        } catch (err) {
-          console.error('Gagal memuat berita:', err);
-        }
-      }
-      setLoading(false);
-    }
-
-    fetchData();
-  }, []);
+  const beritaList = [
+    {
+      id: '1',
+      title: 'Festival Kebudayaan Solo Mangkunegaran Kembali Digelar',
+      category: 'Kebudayaan',
+      description: 'Nikmati ragam pertunjukan seni, tarian tradisional, dan kuliner khas Solo di Pura Mangkunegaran.',
+      imageUrl: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&auto=format&fit=crop&q=80',
+      date: '10 September 2026',
+    },
+    {
+      id: '2',
+      title: 'Wisata Kuliner Pasar Gede: Surga Jajanan Pasar Tradisional',
+      category: 'Kuliner',
+      description: 'Menelusuri kelezatan dawet selasih, timlo, dan lenjongan khas Solo yang melegenda.',
+      imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80',
+      date: '09 September 2026',
+    },
+    {
+      id: '3',
+      title: 'Revitalisasi Area Batik Laweyan Makin Memikat Wisatawan',
+      category: 'Pariwisata',
+      description: 'Kampung Batik Laweyan menghadirkan konsep susur gang bersejarah dan workshop membatik.',
+      imageUrl: 'https://images.unsplash.com/photo-1606744837616-56c9a5c6a6eb?w=600&auto=format&fit=crop&q=80',
+      date: '08 September 2026',
+    },
+  ];
 
   return (
-    <main className="min-h-screen bg-gray-50 p-6 md:p-12">
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-8 border-b pb-4">
-          <h1 className="text-3xl font-bold text-gray-900">Jelajahi Cerita dan Pesona Kota Solo</h1>
-          <p className="text-gray-600 mt-1">
-            Temukan berita dan cerita terkini seputar kebudayaan, keindahan, dan pesona Kota Solo.
-          </p>
-        </header>
+    <main className="min-h-screen bg-gray-50 text-gray-800">
+      {/* Header / Hero */}
+      <div className="bg-emerald-700 text-white py-12 px-6 text-center">
+        <h1 className="text-4xl font-bold mb-2">SoloHitz</h1>
+        <p className="text-emerald-100 text-lg max-w-2xl mx-auto">
+          Jelajahi Cerita dan Pesona Kota Solo — Informasi Kebudayaan, Wisata, dan Kuliner Terkini.
+        </p>
+      </div>
 
-        {loading ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 font-medium">Memuat berita...</p>
-          </div>
-        ) : beritaList.length === 0 ? (
-          <div className="bg-white rounded-lg p-8 text-center border shadow-sm">
-            <p className="text-gray-500">Belum ada berita yang dapat ditampilkan saat ini.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {beritaList.map((item) => {
-              // Perbaikan URL Gambar agar tidak error 404
-              const imageSrc = item.imageUrl?.startsWith('http')
-                ? item.imageUrl
-                : '/file.svg';
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto p-6 md:p-10">
+        <h2 className="text-2xl font-bold mb-6 text-gray-900 border-b pb-2">Berita Utama</h2>
 
-              return (
-                <article key={item.id} className="bg-white rounded-lg shadow-sm border overflow-hidden flex flex-col hover:shadow-md transition-shadow">
-                  <div className="h-48 w-full bg-gray-200 relative">
-                    <img
-                      src={imageSrc}
-                      alt={item.title || 'Gambar Berita'}
-                      className="w-full h-full object-cover"
-                    />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {beritaList.map((item) => (
+            <article key={item.id} className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col hover:shadow-lg transition">
+              <img
+                src={item.imageUrl}
+                alt={item.title}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+                    <span className="bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-0.5 rounded">
+                      {item.category}
+                    </span>
+                    <span>{item.date}</span>
                   </div>
-                  <div className="p-4 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h2 className="text-xl font-semibold text-gray-800 line-clamp-2">
-                        {item.title}
-                      </h2>
-                      <p className="text-gray-600 text-sm mt-2 line-clamp-3">
-                        {item.content || 'Klik untuk membaca berita selengkapnya.'}
-                      </p>
-                    </div>
-                    <a
-                      href={`/berita/${item.slug || item.id}`}
-                      className="mt-4 inline-block text-blue-600 font-medium text-sm hover:underline"
-                    >
-                      Baca Selengkapnya &rarr;
-                    </a>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        )}
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm line-clamp-3">
+                    {item.description}
+                  </p>
+                </div>
+                <button className="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-lg text-sm transition">
+                  Baca Selengkapnya
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </main>
   );
