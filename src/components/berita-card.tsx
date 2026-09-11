@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Eye, MapPin, Calendar, User } from 'lucide-react';
 import { Berita } from '@/types/database';
 
@@ -38,7 +37,8 @@ export default function BeritaCard({ berita, featured = false }: BeritaCardProps
     }
   };
 
-  const defaultImage = 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=800&auto=format&fit=crop&q=80';
+  const defaultImage =
+    'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=800&auto=format&fit=crop&q=80';
 
   const imageUrl =
     berita.gambar &&
@@ -48,10 +48,29 @@ export default function BeritaCard({ berita, featured = false }: BeritaCardProps
       ? berita.gambar
       : defaultImage;
 
+  /**
+   * Validasi slug: jika slug tidak ada, kosong, atau berisi URL (misal URL gambar yang
+   * salah disimpan ke field slug), gunakan /berita/id/[id] sebagai fallback.
+   */
+  const isValidSlug =
+    berita.slug &&
+    berita.slug.trim() !== '' &&
+    !berita.slug.startsWith('http://') &&
+    !berita.slug.startsWith('https://') &&
+    !berita.slug.startsWith('/');
+
+  const articleHref = isValidSlug
+    ? `/berita/${berita.slug}`
+    : `/berita/id/${berita.id}`;
+
   if (featured) {
     return (
       <div className="card-solohitz group grid grid-cols-1 lg:grid-cols-12 overflow-hidden bg-white">
-        <div className="lg:col-span-7 relative aspect-[16/10] lg:aspect-auto min-h-[300px] overflow-hidden bg-gray-100">
+        {/* Gambar — klik membuka halaman detail artikel */}
+        <Link
+          href={articleHref}
+          className="lg:col-span-7 relative aspect-[16/10] lg:aspect-auto min-h-[300px] overflow-hidden bg-gray-100 block"
+        >
           <img
             src={imageUrl}
             alt={berita.judul}
@@ -67,7 +86,7 @@ export default function BeritaCard({ berita, featured = false }: BeritaCardProps
               {berita.kategori.nama}
             </span>
           )}
-        </div>
+        </Link>
 
         <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between">
           <div className="space-y-3">
@@ -88,7 +107,7 @@ export default function BeritaCard({ berita, featured = false }: BeritaCardProps
               </span>
             </div>
 
-            <Link href={`/berita/${berita.slug}`}>
+            <Link href={articleHref}>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1D1D1D] group-hover:text-[#4A154B] transition-colors line-clamp-2">
                 {berita.judul}
               </h2>
@@ -105,7 +124,7 @@ export default function BeritaCard({ berita, featured = false }: BeritaCardProps
               {berita.penulis || 'Redaksi SoloHitz'}
             </span>
             <Link
-              href={`/berita/${berita.slug}`}
+              href={articleHref}
               className="text-xs font-bold text-[#4A154B] hover:text-[#611F69] group-hover:underline flex items-center gap-1"
             >
               Baca Selengkapnya →
@@ -118,8 +137,11 @@ export default function BeritaCard({ berita, featured = false }: BeritaCardProps
 
   return (
     <div className="card-solohitz group flex flex-col h-full bg-white">
-      {/* Image Container */}
-      <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100">
+      {/* Gambar — klik membuka halaman detail artikel */}
+      <Link
+        href={articleHref}
+        className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100 block"
+      >
         <img
           src={imageUrl}
           alt={berita.judul}
@@ -135,7 +157,7 @@ export default function BeritaCard({ berita, featured = false }: BeritaCardProps
             {berita.kategori.nama}
           </span>
         )}
-      </div>
+      </Link>
 
       {/* Content Container */}
       <div className="p-5 flex flex-col flex-1 justify-between">
@@ -154,7 +176,7 @@ export default function BeritaCard({ berita, featured = false }: BeritaCardProps
             </span>
           </div>
 
-          <Link href={`/berita/${berita.slug}`}>
+          <Link href={articleHref}>
             <h3 className="text-lg font-bold tracking-tight text-[#1D1D1D] group-hover:text-[#4A154B] transition-colors line-clamp-2">
               {berita.judul}
             </h3>
@@ -170,7 +192,7 @@ export default function BeritaCard({ berita, featured = false }: BeritaCardProps
             {berita.penulis || 'Redaksi'}
           </span>
           <Link
-            href={`/berita/${berita.slug}`}
+            href={articleHref}
             className="font-bold text-[#4A154B] group-hover:underline inline-flex items-center gap-0.5"
           >
             Baca →

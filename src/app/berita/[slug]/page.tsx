@@ -98,7 +98,7 @@ export default async function DetailBeritaPage({ params }: Props) {
 
             {berita.kategori && (
               <Link
-                href={`/berita/${berita.kategori.slug}`}
+                href={`/kategori/${berita.kategori.slug}`}
                 className="px-3.5 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-[#F9F0FF] text-[#4A154B] border border-purple-200 hover:bg-purple-100 transition-colors"
               >
                 {berita.kategori.nama}

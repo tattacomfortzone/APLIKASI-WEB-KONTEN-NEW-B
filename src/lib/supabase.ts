@@ -69,6 +69,7 @@ export async function getBeritaList(options?: {
 }
 
 export async function getBeritaBySlug(slug: string): Promise<Berita | null> {
+  // Coba fetch by slug terlebih dahulu
   const { data, error } = await supabase
     .from('berita')
     .select(`
@@ -81,14 +82,33 @@ export async function getBeritaBySlug(slug: string): Promise<Berita | null> {
       )
     `)
     .eq('slug', slug)
-    .single();
+    .maybeSingle();
 
-  if (error || !data) {
-    console.error('Error fetching berita by slug:', error);
+  // Jika tidak ketemu by slug, coba fetch by ID (fallback untuk slug yang tidak valid)
+  let beritaData = data;
+  if (!beritaData && !isNaN(Number(slug))) {
+    const { data: dataById } = await supabase
+      .from('berita')
+      .select(`
+        *,
+        kategori (
+          id,
+          nama,
+          slug,
+          deskripsi
+        )
+      `)
+      .eq('id', Number(slug))
+      .maybeSingle();
+    beritaData = dataById;
+  }
+
+  if (!beritaData) {
+    console.error('Error fetching berita by slug/id:', slug);
     return null;
   }
 
-  const berita = data as Berita;
+  const berita = beritaData as Berita;
 
   try {
     const { data: btData } = await supabase
@@ -116,6 +136,7 @@ export async function getBeritaBySlug(slug: string): Promise<Berita | null> {
 
   return berita;
 }
+
 
 export async function getBeritaById(id: string | number): Promise<Berita | null> {
   const { data, error } = await supabase

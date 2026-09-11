@@ -61,10 +61,10 @@ export default async function HomePage() {
                     <span>Jelajahi Berita</span>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <Link href="/berita/wisata" className="btn-pill-outline">
+                  <Link href="/kategori/wisata" className="btn-pill-outline">
                     Wisata Solo
                   </Link>
-                  <Link href="/berita/kuliner" className="btn-pill-outline">
+                  <Link href="/kategori/kuliner" className="btn-pill-outline">
                     Kuliner Khas
                   </Link>
                 </div>
@@ -127,7 +127,7 @@ export default async function HomePage() {
               ].map((cat) => (
                 <Link
                   key={cat.slug}
-                  href={`/berita/${cat.slug}`}
+                  href={`/kategori/${cat.slug}`}
                   className={`p-6 rounded-2xl border transition-all duration-200 group ${cat.bg}`}
                 >
                   <div className="flex items-center justify-between mb-3">

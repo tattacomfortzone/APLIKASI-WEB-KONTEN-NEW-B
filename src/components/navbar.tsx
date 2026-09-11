@@ -14,9 +14,9 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Wisata', href: '/berita/wisata' },
-    { name: 'Kuliner', href: '/berita/kuliner' },
-    { name: 'Budaya', href: '/berita/budaya' },
+    { name: 'Wisata', href: '/kategori/wisata' },
+    { name: 'Kuliner', href: '/kategori/kuliner' },
+    { name: 'Budaya', href: '/kategori/budaya' },
   ];
 
   const handleSearch = (e: React.FormEvent) => {

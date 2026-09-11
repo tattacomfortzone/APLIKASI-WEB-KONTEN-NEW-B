@@ -42,19 +42,19 @@ export default async function BeritaIndexPage() {
                 Semua
               </Link>
               <Link
-                href="/berita/wisata"
+                href="/kategori/wisata"
                 className="px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-[#E6E6E6] text-[#1D1D1D] hover:bg-[#F4EDE4] transition-colors"
               >
                 Wisata
               </Link>
               <Link
-                href="/berita/kuliner"
+                href="/kategori/kuliner"
                 className="px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-[#E6E6E6] text-[#1D1D1D] hover:bg-[#F4EDE4] transition-colors"
               >
                 Kuliner
               </Link>
               <Link
-                href="/berita/budaya"
+                href="/kategori/budaya"
                 className="px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-[#E6E6E6] text-[#1D1D1D] hover:bg-[#F4EDE4] transition-colors"
               >
                 Budaya

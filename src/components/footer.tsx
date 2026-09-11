@@ -33,17 +33,17 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/berita/wisata" className="text-[#696969] hover:text-[#4A154B] transition-colors">
+                <Link href="/kategori/wisata" className="text-[#696969] hover:text-[#4A154B] transition-colors">
                   Wisata Solo
                 </Link>
               </li>
               <li>
-                <Link href="/berita/kuliner" className="text-[#696969] hover:text-[#4A154B] transition-colors">
+                <Link href="/kategori/kuliner" className="text-[#696969] hover:text-[#4A154B] transition-colors">
                   Kuliner Legendaris
                 </Link>
               </li>
               <li>
-                <Link href="/berita/budaya" className="text-[#696969] hover:text-[#4A154B] transition-colors">
+                <Link href="/kategori/budaya" className="text-[#696969] hover:text-[#4A154B] transition-colors">
                   Budaya & Seni Jawa
                 </Link>
               </li>
